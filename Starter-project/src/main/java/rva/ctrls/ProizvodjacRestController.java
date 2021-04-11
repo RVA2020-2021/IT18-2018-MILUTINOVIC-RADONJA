@@ -2,6 +2,8 @@ package rva.ctrls;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import rva.jpa.Proizvodjac;
 import rva.repository.ProizvodjacRepository;
-
-@RestController
+@RestController@Api(tags = {"Proizvodjac CRUD operacije"})
 public class ProizvodjacRestController {
 
 	@Autowired
@@ -58,10 +60,12 @@ public class ProizvodjacRestController {
 		return new ResponseEntity<Proizvodjac>(HttpStatus.OK);
 		}	
 
+	@Transactional
 	@DeleteMapping("proizvodjac/{id}")
 	public ResponseEntity<Proizvodjac> deleteProizvod(@PathVariable("id") Integer id){
 		if (!proizvodjacRepository.existsById(id))
 			return new ResponseEntity<Proizvodjac>(HttpStatus.NO_CONTENT);
+		jdbcTemplate.execute("DELETE FROM proizvod WHERE proizvodjac=" + id);
 		proizvodjacRepository.deleteById(id);
 		if (id == -100)
 			jdbcTemplate.execute("INSERT INTO \"proizvodjac\" (\"id\", \"naziv\", \"adresa\", \"kontakt\")"

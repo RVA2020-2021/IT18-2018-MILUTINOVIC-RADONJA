@@ -2,6 +2,8 @@ package rva.ctrls;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import rva.jpa.Proizvod;
 import rva.repository.ProizvodRepository;
 
-@RestController
+@RestController@Api(tags = {"Proizvod CRUD operacije"})
 public class ProizvodRestController {
 
 	@Autowired
@@ -58,15 +61,16 @@ public class ProizvodRestController {
 		return new ResponseEntity<Proizvod>(HttpStatus.OK);
 		}	
 
+	@Transactional
 	@DeleteMapping("proizvod/{id}")
 	public ResponseEntity<Proizvod> deleteProizvod(@PathVariable("id") Integer id){
 		if (!proizvodRepository.existsById(id))
 			return new ResponseEntity<Proizvod>(HttpStatus.NO_CONTENT);
 		proizvodRepository.deleteById(id);
+		jdbcTemplate.execute("DELETE FROM stavka_porudzbine WHERE proizvod=" + id);
 		if (id == -100)
 			jdbcTemplate.execute("INSERT INTO \"proizvod\" (\"id\", \"naziv\", \"proizvodjac\")"
 					+ "VALUES (-100, 'Test naziv', 'Test Proizvodjac')");
 		return new ResponseEntity<Proizvod>(HttpStatus.OK);
 	}
-}
-	
+}	
