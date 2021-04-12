@@ -70,7 +70,7 @@ public class ProizvodRestController {
 		jdbcTemplate.execute("DELETE FROM stavka_porudzbine WHERE proizvod=" + id);
 		if (id == -100)
 			jdbcTemplate.execute("INSERT INTO \"proizvod\" (\"id\", \"naziv\", \"proizvodjac\")"
-					+ "VALUES (-100, 'Test naziv', 'Test Proizvodjac')");
+					+ "VALUES (-100, 'Test nazivv', 'Test Proizvodjac')");
 		return new ResponseEntity<Proizvod>(HttpStatus.OK);
 	}
 }	
