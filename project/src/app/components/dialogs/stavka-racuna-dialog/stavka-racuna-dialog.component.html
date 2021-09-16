@@ -1,0 +1,53 @@
+
+<div class="container">
+  <h3 mat-dialog-title *ngIf="flag == 1">Dodavanje stavke racuna:</h3>
+  <h3 mat-dialog-title *ngIf="flag == 2">Modifikacija stavke racuna: </h3>
+  <h3 mat-dialog-title *ngIf="flag == 3">Brisanje stavke racuna: </h3>
+  <form class="mat-dialog-content" #formControl="ngForm">
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="Cena" [(ngModel)]="data.cena" name="cena" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="jedinicaMere" [(ngModel)]="data.jedinicaMere" name="jedinicaMere" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="Kolicina" [(ngModel)]="data.kolicina" name="kolicina" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <input matInput placeholder="redniBroj" [(ngModel)]="data.redniBroj" name="redniBroj" [disabled]="flag == 3" required>
+      </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <mat-select [(ngModel)]="data.proizvod" placeholder="Proizvod" name="proizvod" [compareWith]="compareTo" [disabled]="flag == 3" required>
+            <mat-option *ngFor="let proizvod of proizvodi" [value]="proizvod">
+              {{ proizvod.naziv}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="form">
+      <mat-form-field>
+        <mat-select [(ngModel)]="data.racun" placeholder="racun" name="racun" [compareWith]="compareTo" [disabled]="flag == 3" required>
+            <mat-option *ngFor="let racun of racuni" [value]="racun">
+              {{ racun.id}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button *ngIf="flag == 1" type="submit" [mat-dialog-close]="1" (click)="addStavkaRacuna()" [disabled]="!formControl.valid">Sačuvaj</button>
+      <button mat-button *ngIf="flag == 2" type="submit" [mat-dialog-close]="1" (click)="updateStavkaRacuna()" [disabled]="!formControl.valid">Sačuvaj</button>
+      <button mat-button *ngIf="flag == 3" type="submit" [mat-dialog-close]="1" (click)="deleteStavkaRacuna()">Obriši</button>
+      <button mat-button (click)="cancel()">Poništi</button>
+    </div>
+  </form>
+</div>
