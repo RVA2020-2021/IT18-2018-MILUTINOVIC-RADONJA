@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import io.swagger.annotations.Api;
 import rva.jpa.Racun;
 import rva.repository.RacunRepository;
 
+@CrossOrigin
 @RestController@Api(tags = {"Racun CRUD operacije"})
 public class RacunRestController {
 
@@ -67,7 +69,7 @@ public class RacunRestController {
 		if (!racunRepository.existsById(id))
 			return new ResponseEntity<Racun>(HttpStatus.NO_CONTENT);
 		
-		jdbcTemplate.execute("DELETE FROM stavka_porudzbine WHERE porudzbina=" + id);
+		jdbcTemplate.execute("DELETE FROM stavka_racuna WHERE racun=" + id);
 		racunRepository.deleteById(id);
 		if (id == -100)
 			jdbcTemplate.execute("INSERT INTO \"proizvod\" (\"id\", \"datum\", \"nacin_placanja\")"

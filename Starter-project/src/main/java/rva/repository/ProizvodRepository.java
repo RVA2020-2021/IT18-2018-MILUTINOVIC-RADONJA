@@ -10,5 +10,4 @@ public interface ProizvodRepository extends JpaRepository <Proizvod, Integer>{
 	
 	Collection<Proizvod> findByNazivContainingIgnoreCase(String naziv);
 	
-	
 }

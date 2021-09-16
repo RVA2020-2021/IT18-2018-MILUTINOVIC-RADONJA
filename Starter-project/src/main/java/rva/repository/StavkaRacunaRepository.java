@@ -11,7 +11,7 @@ import rva.jpa.StavkaRacuna;
 
 public interface StavkaRacunaRepository extends JpaRepository <StavkaRacuna, Integer>{
 	
-	Collection<StavkaRacuna> findByRacun(Racun r);
+	Collection<StavkaRacuna> findByRacun(String racun);
 	Collection<StavkaRacuna> findByCenaLessThanOrderById(BigDecimal cena);
 	
 	@Query(value = "select coalesce(max(redni_broj)+1,1) from stavka_racuna where racun = ?1", nativeQuery = true)

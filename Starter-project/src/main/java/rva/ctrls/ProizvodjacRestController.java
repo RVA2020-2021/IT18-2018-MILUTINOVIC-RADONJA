@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +18,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
+import rva.jpa.Proizvod;
 import rva.jpa.Proizvodjac;
+import rva.repository.ProizvodRepository;
 import rva.repository.ProizvodjacRepository;
-@RestController@Api(tags = {"Proizvodjac CRUD operacije"})
+
+@CrossOrigin
+@RestController
+@Api(tags = {"Proizvodjac CRUD operacije"})
 public class ProizvodjacRestController {
 
 	@Autowired
 	private ProizvodjacRepository proizvodjacRepository;
+	private ProizvodRepository proizvodRepository;
 	
 	@Autowired 
 	private JdbcTemplate jdbcTemplate;
@@ -37,6 +44,11 @@ public class ProizvodjacRestController {
 	public Proizvodjac getProizvodjaci(@PathVariable ("id") Integer id) {
 		return proizvodjacRepository.getOne(id);
 	}
+	// @GetMapping("proizvodjacZaProizvod/{id}")
+	// // public Collection<Proizvodjac> proizvodjacPoProizvodu(@PathVariable("id") Integer id ) {
+	////	Proizvod p = proizvodRepository.getOne(id);
+	//	return proizvodjacRepository.findByProizvod(p);
+	//}
 	
 	@GetMapping("proizvodjacNaziv/{naziv}")
 	public Collection<Proizvodjac> getProizvodjaciByNaziv(@PathVariable("naziv") String naziv) {
